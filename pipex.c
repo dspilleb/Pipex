@@ -6,40 +6,48 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:02:54 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/07/31 17:55:28 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:44:03 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./pipex.h"
 
-void	failure_exit(t_data *data)
+void	failure_exit(t_data *data, int code)
 {
 	free_cmds(data);
-	perror("command not found");
-	exit(127);
+	if (code == 127)
+		perror("command not found");
+	else
+		perror("");
+	exit(code);
 }
 
 void	exec(int *fd, int nb, char **env, t_data *data)
 {
+	int	code;
+
+	code = 1;
 	if (nb == 0)
 	{
 		close(fd[0]);
 		if (dup2(data->infile, STDIN_FILENO) != 1 && \
 			dup2(fd[1], STDOUT_FILENO) != -1)
+		{
 			execve(data->cmd_paths[0], data->cmd_args[0], env);
-		else
-			perror("dup2 failed");
+			code = 127;
+		}
 		close(fd[1]);
-		failure_exit(data);
+		failure_exit(data, code);
 	}
 	close(fd[1]);
 	if (dup2(fd[0], STDIN_FILENO) != -1 && \
 	dup2(data->outfile, STDOUT_FILENO) != -1)
+	{
 		execve(data->cmd_paths[1], data->cmd_args[1], env);
-	else
-		perror("dup2 failed");
+		code = 127;
+	}
 	close(fd[0]);
-	failure_exit(data);
+	failure_exit(data, code);
 }
 
 void	exec_cmd(t_data *data, char **env)
@@ -48,10 +56,10 @@ void	exec_cmd(t_data *data, char **env)
 	pid_t	pid;
 
 	if (pipe(fd) == -1)
-		failure_exit(data);
+		failure_exit(data, 1);
 	pid = fork();
 	if (pid == -1)
-		failure_exit(data);
+		failure_exit(data, 1);
 	if (pid == 0)
 	{
 		if (data->infile < 0)
@@ -78,7 +86,6 @@ int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 
-	env = NULL;
 	if (ac != 5)
 	{
 		write(2, "usage : file1 cmd1 cmd2 file2\n", 30);
