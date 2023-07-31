@@ -7,7 +7,7 @@ LIBFT_DIR = ./My_Libft/
 LIBFT  = $(addprefix $(LIBFT_DIR), $(LIBFT_A))
 
 FLAGS = -Wall -Wextra -Werror
-INCLUDE = -fsanitize=address
+INCLUDE = -fsanitize=address -g
 
 OBJ = *.o
 

@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:27:42 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/07/31 12:20:55 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/07/31 13:19:11 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	init_files(char **av, t_data *data)
 			return (EXIT_FAILURE);
 	}
 	else
-		data->outfile = open(av[4], O_CREAT | O_WRONLY, 0777);
+		data->outfile = open(av[4], O_CREAT | O_WRONLY, 0644);
 	if (data->outfile < 0)
 		return (EXIT_FAILURE);
 	return (0);

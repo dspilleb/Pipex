@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:02:54 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/07/31 12:34:49 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/07/31 13:40:29 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ int	main(int ac, char **av, char **env)
 	t_data	data;
 
 	if (ac != 5)
+	{
+		write(1, "usage : file1 cmd1 cmd2 file2\n", 30);
 		return (EXIT_FAILURE);
+	}
 	init_data(&data);
 	data.status = init_files(av, &data);
 	if (data.status != 0)
