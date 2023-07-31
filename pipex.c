@@ -6,83 +6,78 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:02:54 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/07/13 19:32:39 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/07/31 12:34:49 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./pipex.h"
 
-int	exec_cmd(t_data *data, char **av)
+void	failure_exit(t_data *data)
 {
-	char buf;
-	int	fd2;
-	int fd[2];
-	pid_t pid;
-
-	pipe(fd);
-	printf("hey\n");
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("pipe");
-        exit(EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
-		if(data->cmd_count == 0)
-			fd2 = open(av[1], O_RDONLY);
-		dup2(fd2, STDIN_FILENO);
-		close(fd[0]);
-		dup2(STDOUT_FILENO, fd[1]);
-		data->cmd_count++;
-		execve(data->cmd_paths[data->cmd_count], data->cmd_args[data->cmd_count], NULL);
-		close(fd[1]);
-	}
-	else
-	{
-		printf("aled\n");
-		wait(NULL);
-		close(fd[1]);	
-        while (read(fd[0], &buf, 1) > 0)
-            write(STDOUT_FILENO, &buf, 1);
-		close(fd[0]);
-	}
-	return (0);
+	free_cmds(data);
+	perror("command not found");
+	exit(127);
 }
 
-char *find_env_path(char **envp)
+void	exec_cmd(t_data *data, char **env)
 {
-	while(*envp)
+	int		fd[2];
+	pid_t	pid;
+
+	if (pipe(fd) == -1)
+		failure_exit(data);
+	pid = fork();
+	if (pid == -1)
+		failure_exit(data);
+	if (pid == 0)
 	{
-		if (ft_strnstr(*envp, "PATH", ft_strlen(*envp)))
-			return (strdup(*envp));
+		if (data->infile < 0)
+			return ;
+		dup2(data->infile, STDIN_FILENO);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[0]);
+		execve(data->cmd_paths[0], data->cmd_args[0], env);
+		failure_exit(data);
+	}
+	dup2(data->outfile, STDOUT_FILENO);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[1]);
+	execve(data->cmd_paths[1], data->cmd_args[1], env);
+	failure_exit(data);
+}
+
+char	*find_env_path(char **envp)
+{
+	while (*envp)
+	{
+		if (ft_strncmp("PATH", *envp, 4) == 0)
+			return (*envp + 5);
 		envp++;
 	}
 	return (NULL);
 }
 
-int	main(int ac, char **av, char **envp)
+void	init_data(t_data *data)
 {
-	t_data data;
+	data->infile = -1;
+	data->outfile = -1;
+	data->status = 0;
+	data->env_path = NULL;
+}
 
-	if (ac < 5)
-	{
-		printf("non");
-		return (1);
-	}
-	if (access(av[1], R_OK) != 0)
-	{
-		printf("erreur");
-		return (1);
-	}
-	data.cmd_count = 0;
-	data.total_cmds = 0;
-	set_cmds(&data, ac, av, envp);
-	printf("%d", data.total_cmds);
-	while (data.cmd_count < data.total_cmds)
-	{
-		printf("oui");
-		exec_cmd(&data, av);
-	}
-	return (0);
+int	main(int ac, char **av, char **env)
+{
+	t_data	data;
+
+	if (ac != 5)
+		return (EXIT_FAILURE);
+	init_data(&data);
+	data.status = init_files(av, &data);
+	if (data.status != 0)
+		return (EXIT_FAILURE);
+	data.status = set_cmds(&data, av, env);
+	if (data.status == 0)
+		exec_cmd(&data, env);
+	free_cmds(&data);
+	return (data.status);
 }

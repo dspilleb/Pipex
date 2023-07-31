@@ -1,42 +1,36 @@
-NAME = pipex
+NAME =pipex
 
-SRC = pipex.c commands.c
+SRC = pipex.c commands.c files.c
 
 LIBFT_A = libft.a
 LIBFT_DIR = ./My_Libft/
 LIBFT  = $(addprefix $(LIBFT_DIR), $(LIBFT_A))
 
-FLAGS =
-INCLUDE =
+FLAGS = -Wall -Wextra -Werror
+INCLUDE = -fsanitize=address
 
 OBJ = *.o
 
-NONE='\033[0m'
 GREEN='\033[32m'
-YELLOW='\033[33m'
-GRAY='\033[2;37m'
-CURSIVE='\033[3m'
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@echo $(CURSIVE)$(GRAY) "     - Making libft..." $(NONE)
 	@make -C $(LIBFT_DIR)
-	@echo $(CURSIVE)$(GRAY) "     - Compiling" $(NONE)
 	@gcc $(FLAGS) $(OBJ) $(LIBFT) $(INCLUDE) -o $(NAME)
 	@echo $(GREEN)"- Compiled -"$(NONE)
 
 $(OBJ): $(SRC)
-	@echo $(CURSIVE)$(GRAY) "     - Making object files..." $(NONE)
 	@gcc $(FLAGS) -c $(SRC)
 
+pipex_clean:
+	@rm -rf $(OBJ)
+
 clean:
-	@echo $(CURSIVE)$(GRAY) "     - Removing object files..." $(NONE)
 	@rm -rf $(OBJ)
 	@make -C $(LIBFT_DIR) clean
 
-fclean: clean
-	@echo $(CURSIVE)$(GRAY) "     - Removing" $(NONE)
+fclean: pipex_clean
 	@rm -rf $(NAME)
 	@make -C $(LIBFT_DIR) fclean
 

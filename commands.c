@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:42:11 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/07/13 19:34:56 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/07/31 12:30:41 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_matrix(char **arr)
 	free(arr);
 }
 
-char	*create_command_path(char *env_path, char *command)
+char	*create_command_path(char *path, char *command)
 {
 	char	*tmp;
 	char	*full_path;
@@ -32,7 +32,7 @@ char	*create_command_path(char *env_path, char *command)
 	tmp = ft_strjoin("/", command);
 	if (!tmp)
 		return (NULL);
-	full_path = ft_strjoin(env_path, tmp);
+	full_path = ft_strjoin(path, tmp);
 	free(tmp);
 	return (full_path);
 }
@@ -45,48 +45,67 @@ char	*find_command_path(char *all_paths, char *command)
 
 	i = -1;
 	if (!command || !ft_strlen(command))
-		return (NULL);
+		return (strdup(""));
 	arr = ft_split(all_paths, ':');
-	if (!arr)
-		return (NULL);
-	while (arr[++i])
+	while (arr && arr[++i])
 	{
 		full_path = create_command_path(arr[i], command);
-		if (!full_path)
-			break ;
-		else if (access(full_path, X_OK) == 0)
+		if (full_path && access(full_path, F_OK | X_OK) == 0)
+		{
+			free_matrix(arr);
 			return (full_path);
-		free(full_path);
+		}
+		if (full_path)
+			free(full_path);
 	}
-	free_matrix(arr);
-	return (NULL);
+	if (arr)
+		free_matrix(arr);
+	return (strdup(command));
 }
 
-void set_cmds(t_data *data, int ac, char **av, char **envp)
+int	set_cmds(t_data *data, char **av, char **envp)
+{
+	int		i;
+	char	**tmp_arr;
+
+	i = -1;
+	data->env_path = find_env_path(envp);
+	if (!data->env_path || data->status != 0)
+		return (EXIT_FAILURE);
+	data->cmd_paths = malloc(sizeof(char *) * (2));
+	data->cmd_args = malloc(sizeof(char **) * (2));
+	if (!data->cmd_paths || ! data->cmd_args)
+		return (EXIT_FAILURE);
+	while (++i < 2)
+	{
+		tmp_arr = ft_split(av[i + 2], ' ');
+		if (!tmp_arr)
+			return (EXIT_FAILURE);
+		data->cmd_paths[i] = find_command_path(data->env_path, tmp_arr[0]);
+		data->cmd_args[i] = ft_split(av[i + 2], ' ');
+		free_matrix(tmp_arr);
+		if (!data->cmd_paths[i] || !data->cmd_args[i])
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
+void	free_cmds(t_data *data)
 {
 	int	i;
-	char **tmp_arr;
-	char *env_path;
 
-	i = 1;
-	data->total_cmds = 0;
-	printf("set cmds\n");
-	env_path = find_env_path(envp);
-	if (!env_path)
-		return ;
-	data->cmd_paths = malloc(sizeof(char *) * (ac - 2));
-	data->cmd_args = malloc(sizeof(char **) * (ac - 2));
-	while (++i < ac - 1)
+	i = -1;
+	while (data->cmd_paths && ++i < 2)
 	{
-		tmp_arr = ft_split(av[i], ' ');
-		if (!tmp_arr)
-			return ;
-		data->cmd_paths[i - 2] = find_command_path(env_path, tmp_arr[0]);
-		data->cmd_args[i - 2] = ft_split(av[i], ' ');
-		data->total_cmds++;
-		free_matrix(tmp_arr);
-		printf("set cmds2\n");
+		if (data->cmd_paths[i])
+			free(data->cmd_paths[i]);
 	}
-	data->cmd_paths[i - 2] = NULL;
-	data->cmd_args[i - 2] =  NULL;
+	i = -1;
+	while (data->cmd_args && ++i < 2)
+		if (data->cmd_args[i])
+			free_matrix(data->cmd_args[i]);
+	if (data->cmd_args)
+		free(data->cmd_args);
+	if (data->cmd_paths)
+		free(data->cmd_paths);
 }
