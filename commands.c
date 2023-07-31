@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:42:11 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/01 14:50:41 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/07/31 14:44:00 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	free_cmds(t_data *data)
 	int	i;
 
 	i = -1;
-	while (data->cmd_paths && ++i < data->arg_count)
+	while (data->cmd_paths && ++i <= data->arg_count && i < 2)
 	{
 		if (data->cmd_paths[i])
 			free(data->cmd_paths[i]);
