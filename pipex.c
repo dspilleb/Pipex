@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:02:54 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/07/31 18:44:03 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:09:17 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	failure_exit(t_data *data, int code)
 	if (code == 127)
 		perror("command not found");
 	else
-		perror("");
+		perror("error");
 	exit(code);
 }
 

@@ -1,4 +1,4 @@
-NAME =pipex
+NAME = pipex
 
 SRC = pipex.c commands.c files.c
 

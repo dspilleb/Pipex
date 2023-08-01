@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:42:11 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/07/31 16:07:11 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:50:41 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,10 @@ int	set_cmds(t_data *data, char **av, char **envp)
 		data->cmd_paths[i] = find_command_path(data->env_path, tmp_arr[0]);
 		data->cmd_args[i] = ft_split(av[i + 2], ' ');
 		free_matrix(tmp_arr);
-		if (!data->cmd_paths[i] || !data->cmd_args[i])
+		if (!data->cmd_args[i])
 			return (EXIT_FAILURE);
+		else
+			data->arg_count++;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -95,15 +97,14 @@ void	free_cmds(t_data *data)
 	int	i;
 
 	i = -1;
-	while (data->cmd_paths && ++i < 2)
+	while (data->cmd_paths && ++i < data->arg_count)
 	{
 		if (data->cmd_paths[i])
 			free(data->cmd_paths[i]);
 	}
 	i = -1;
-	while (data->cmd_args && ++i < 2)
-		if (data->cmd_args[i])
-			free_matrix(data->cmd_args[i]);
+	while (data->cmd_args && ++i < data->arg_count)
+		free_matrix(data->cmd_args[i]);
 	if (data->cmd_args)
 		free(data->cmd_args);
 	if (data->cmd_paths)

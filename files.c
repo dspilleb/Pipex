@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:27:42 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/07/31 17:36:07 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:13:19 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,7 @@ void	init_data(t_data *data)
 	data->outfile = -1;
 	data->status = 0;
 	data->env_path = NULL;
+	data->cmd_args = NULL;
+	data->cmd_paths = NULL;
+	data->arg_count = 0;
 }
