@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:07:07 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/02 11:09:07 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/02 11:32:50 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ char	*create_command_path(char *env_path, char *command);
 char	*find_command_path(char *all_paths, char *command);
 char	*find_env_path(char **envp);
 int		set_cmds(t_data *data, char **av, char **envp);
-void	exec_cmd(t_data *data, char **env);
+void	fork_exec(t_data *data, char **env);
 void	free_cmds(t_data *data);
 int		init_files(char **av, t_data *data);
 void	init_data(t_data *data);
 void	failure_exit(t_data *data, int code);
 void	exec(int *fd, int nb, char **env, t_data *data);
-void	exec_cmd(t_data *data, char **env);
+void	fork_exec(t_data *data, char **env);
 #endif

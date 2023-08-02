@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:02:54 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/02 11:21:27 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/02 11:32:50 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int ac, char **av, char **env)
 		return (EXIT_FAILURE);
 	data.status = set_cmds(&data, av, env);
 	if (data.status == EXIT_SUCCESS)
-		exec_cmd(&data, env);
+		fork_exec(&data, env);
 	free_cmds(&data);
 	return (data.status);
 }
