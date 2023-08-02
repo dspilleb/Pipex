@@ -1,10 +1,17 @@
 NAME = pipex
 
-SRC = pipex.c commands.c data.c utils.c execution.c
+SRC_C = pipex.c commands.c data.c utils.c execution.c
+SRC_DIR = ./Normal/
+SRC = $(addprefix $(SRC_DIR), $(SRC_C))
+
+BONUS_SRC_C = pipex_bonus.c commands_bonus.c data_bonus.c utils_bonus.c execution_bonus.c
+BONUS_DIR = ./BONUS/
+BONUS_SRC = $(addprefix $(BONUS_DIR), $(BONUS_SRC_C))
+
 
 LIBFT_A = libft.a
 LIBFT_DIR = ./My_Libft/
-LIBFT  = $(addprefix $(LIBFT_DIR), $(LIBFT_A))
+LIBFT = $(addprefix $(LIBFT_DIR), $(LIBFT_A))
 
 FLAGS = -Wall -Wextra -Werror
 INCLUDE = #-fsanitize=address -g
@@ -39,5 +46,8 @@ fclean: pipex_clean
 	@rm -rf $(NAME)
 	@echo $(YELLOW)"- cleaning LIBFT -"$(NONE)
 	@make -C $(LIBFT_DIR) fclean
+
+bonus: fclean
+	@gcc $(FLAGS) -c $(BONUS_SRC)
 
 re: fclean all
