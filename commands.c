@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:42:11 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/07/31 14:44:00 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/02 10:19:37 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*find_command_path(char *all_paths, char *command)
 
 	i = -1;
 	if (!command || !ft_strlen(command))
-		return (strdup(""));
+		return (NULL);
 	arr = ft_split(all_paths, ':');
 	while (arr && arr[++i])
 	{
@@ -82,12 +82,8 @@ int	set_cmds(t_data *data, char **av, char **envp)
 		if (!tmp_arr)
 			return (EXIT_FAILURE);
 		data->cmd_paths[i] = find_command_path(data->env_path, tmp_arr[0]);
-		data->cmd_args[i] = ft_split(av[i + 2], ' ');
-		free_matrix(tmp_arr);
-		if (!data->cmd_args[i])
-			return (EXIT_FAILURE);
-		else
-			data->arg_count++;
+		data->cmd_args[i] = tmp_arr;
+		data->arg_count++;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -97,11 +93,8 @@ void	free_cmds(t_data *data)
 	int	i;
 
 	i = -1;
-	while (data->cmd_paths && ++i <= data->arg_count && i < 2)
-	{
-		if (data->cmd_paths[i])
-			free(data->cmd_paths[i]);
-	}
+	while (data->cmd_paths && ++i < data->arg_count)
+		free(data->cmd_paths[i]);
 	i = -1;
 	while (data->cmd_args && ++i < data->arg_count)
 		free_matrix(data->cmd_args[i]);
