@@ -4,7 +4,7 @@
 
 <p align="center">
 	<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/DanNoKenshi/Pipex?color=lightblue" />
-	<img alt="Number of lines of code" src="https://img.shields.io/tokei/lines/github/DanNoKenshi/Pipex?color=critical" />
+	<img alt="Number of lines of code" src="https://img.shields.io/github/lines/github/DanNoKenshi/Pipex?color=critical" />
 	<img alt="Code language count" src="https://img.shields.io/github/languages/count/DanNoKenshi/Pipex?color=yellow" />
 	<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/DanNoKenshi/Pipex?color=blue" />
 	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/DanNoKenshi/Pipex?color=green" />
@@ -16,7 +16,7 @@
 >by using it in your program.
 
 ## 💻 To use the program 
-you must first compile it with the makefile by using the command 'make' in the shell</h2>
+<h3>you must first compile it with the makefile by using the command 'make' in the shell</h3>
 
 ```bash
 make all
