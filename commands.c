@@ -6,22 +6,21 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:42:11 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/02 10:19:37 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/02 11:22:58 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	free_matrix(char **arr)
+char	*find_env_path(char **envp)
 {
-	int	i;
-
-	i = -1;
-	if (!arr)
-		return ;
-	while (arr[++i])
-		free(arr[i]);
-	free(arr);
+	while (envp && *envp)
+	{
+		if (ft_strncmp("PATH", *envp, 4) == 0)
+			return (*envp + 5);
+		envp++;
+	}
+	return (NULL);
 }
 
 char	*create_command_path(char *path, char *command)
@@ -60,7 +59,7 @@ char	*find_command_path(char *all_paths, char *command)
 	}
 	if (arr)
 		free_matrix(arr);
-	return (strdup(command));
+	return (ft_strdup(command));
 }
 
 int	set_cmds(t_data *data, char **av, char **envp)
@@ -70,7 +69,7 @@ int	set_cmds(t_data *data, char **av, char **envp)
 
 	i = -1;
 	data->env_path = find_env_path(envp);
-	if (!data->env_path || data->status != 0)
+	if (!data->env_path)
 		return (EXIT_FAILURE);
 	data->cmd_paths = malloc(sizeof(char *) * (2));
 	data->cmd_args = malloc(sizeof(char **) * (2));
@@ -83,7 +82,7 @@ int	set_cmds(t_data *data, char **av, char **envp)
 			return (EXIT_FAILURE);
 		data->cmd_paths[i] = find_command_path(data->env_path, tmp_arr[0]);
 		data->cmd_args[i] = tmp_arr;
-		data->arg_count++;
+		data->cmd_count++;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -93,10 +92,10 @@ void	free_cmds(t_data *data)
 	int	i;
 
 	i = -1;
-	while (data->cmd_paths && ++i < data->arg_count)
+	while (data->cmd_paths && ++i < data->cmd_count)
 		free(data->cmd_paths[i]);
 	i = -1;
-	while (data->cmd_args && ++i < data->arg_count)
+	while (data->cmd_args && ++i < data->cmd_count)
 		free_matrix(data->cmd_args[i]);
 	if (data->cmd_args)
 		free(data->cmd_args);

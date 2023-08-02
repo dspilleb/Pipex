@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:07:07 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/01 15:02:44 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/02 11:09:07 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <sys/wait.h>
 # include <stdio.h>
 # include <fcntl.h>
-# include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include "My_Libft/libft.h"
@@ -31,7 +30,7 @@ typedef struct pipex_data
 	int		infile;
 	int		outfile;
 	int		status;
-	int		arg_count;
+	int		cmd_count;
 }	t_data;
 
 void	free_matrix(char **arr);

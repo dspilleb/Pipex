@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   files.c                                            :+:      :+:    :+:   */
+/*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:27:42 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/01 15:13:19 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/02 11:21:50 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ void	init_data(t_data *data)
 	data->env_path = NULL;
 	data->cmd_args = NULL;
 	data->cmd_paths = NULL;
-	data->arg_count = 0;
+	data->cmd_count = 0;
 }

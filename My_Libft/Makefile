@@ -13,17 +13,18 @@ RM		= rm -f
 CFLAGS = -Wall -Wextra -Werror
 
 .c.o:
-		${CC} ${CFLAGS} -g -c $< -o ${<:.c=.o}
+		@${CC} ${CFLAGS} -g -c $< -o ${<:.c=.o}
 
 $(NAME): ${OBJS}
-		ar rcs ${NAME} ${OBJS}
+		@ar rcs ${NAME} ${OBJS}
 
 all:	${NAME}
 
 clean:
-		${RM} ${OBJS} ${OBJSBONUS}
+		@${RM} ${OBJS} ${OBJSBONUS}
 
 fclean:	clean
-		${RM} ${NAME}
+		@${RM} ${NAME}
+
 
 re:		fclean all
