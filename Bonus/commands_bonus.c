@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:42:11 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/02 12:19:02 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/03 10:52:23 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,23 @@ char	*find_command_path(char *all_paths, char *command)
 int	set_cmds(t_data *data, int ac, char **av, char **envp)
 {
 	int		i;
+	int		tmp;
 	char	**tmp_arr;
 
+	tmp = 3;
+	if (data->here_doc == 1)
+		tmp++;
 	i = -1;
 	data->env_path = find_env_path(envp);
 	if (!data->env_path)
 		return (EXIT_FAILURE);
-	data->cmd_paths = malloc(sizeof(char *) * (ac - 3));
-	data->cmd_args = malloc(sizeof(char **) * (ac - 3));
+	data->cmd_paths = malloc(sizeof(char *) * (ac - tmp));
+	data->cmd_args = malloc(sizeof(char **) * (ac - tmp));
 	if (!data->cmd_paths || ! data->cmd_args)
 		return (EXIT_FAILURE);
-	while (++i < ac - 3)
+	while (++i < ac - tmp)
 	{
-		tmp_arr = ft_split(av[i + 2], ' ');
+		tmp_arr = ft_split(av[i + tmp - 1], ' ');
 		if (!tmp_arr)
 			return (EXIT_FAILURE);
 		data->cmd_paths[i] = find_command_path(data->env_path, tmp_arr[0]);

@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 20:44:41 by dan               #+#    #+#             */
-/*   Updated: 2023/08/01 15:04:44 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/02 16:05:39 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
+void	ft_putstr_fd(char *s, int fd);
 
 #endif

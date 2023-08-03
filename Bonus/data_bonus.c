@@ -6,18 +6,26 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:27:42 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/02 12:16:54 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:56:25 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-int	init_files(char **av, t_data *data)
+int	init_files(int ac, char **av, t_data *data)
 {
-	data->infile = open(av[1], O_RDONLY);
-	if (data->infile == -1)
-		perror(av[1]);
-	data->outfile = open(av[4], O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	if (is_equal(av[1], "here_doc") == 0)
+	{
+		data->here_doc = 1;
+		data->outfile = open(av[ac - 1], O_CREAT | O_APPEND | O_WRONLY, 0644);
+	}
+	else
+	{
+		data->infile = open(av[1], O_RDONLY);
+		if (data->infile == -1)
+			perror(av[1]);
+		data->outfile = open(av[ac - 1], O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	}
 	if (data->outfile < 0)
 	{
 		perror(av[4]);
@@ -31,8 +39,10 @@ void	init_data(t_data *data)
 	data->infile = -1;
 	data->outfile = -1;
 	data->status = 0;
+	data->exec_count = -1;
+	data->cmd_count = 0;
+	data->here_doc = 0;
 	data->env_path = NULL;
 	data->cmd_args = NULL;
 	data->cmd_paths = NULL;
-	data->cmd_count = 0;
 }
