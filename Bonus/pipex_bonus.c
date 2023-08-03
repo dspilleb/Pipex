@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:02:54 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/03 11:13:55 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:16:13 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,11 @@ int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 
-	if (ac < 5 || (is_equal(av[1], "here_doc") == 0 && ac < 6))
+	errno = 0;
+	if (!env || ac < 5 || (is_equal(av[1], "here_doc") == 0 && ac < 6))
 	{
-		write(2, "usage : file1 cmd1 cmd2 file2\n", 30);
-		return (EXIT_FAILURE);
-	}
-	if (!env)
-	{
-		write(2, "no environment\n", 15);
+		ft_putstr_fd("usage 1 : file1 cmd1 cmd2 file2\n usage 2 : \
+		here_doc LIMITER cmd cmd1 file\n", 2);
 		return (EXIT_FAILURE);
 	}
 	init_data(&data);
@@ -33,9 +30,9 @@ int	main(int ac, char **av, char **env)
 	data.status = set_cmds(&data, ac, av, env);
 	if (data.status == 0)
 	{
-		if (!data.here_doc)
+		if (!data.here_doc && data.infile != -1)
 			dup2(data.infile, STDIN_FILENO);
-		else
+		else if (data.here_doc)
 			here_doc_stdin(&data, av[2]);
 		while (++data.exec_count < data.cmd_count)
 			fork_exec(&data, env);

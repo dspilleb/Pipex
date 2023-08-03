@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:22:37 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/03 11:45:04 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:15:55 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	exec(int *pipe_fd, int pid, char **env, t_data *data)
 		{
 			execve(data->cmd_paths[data->exec_count], \
 			data->cmd_args[data->exec_count], env);
+			close(pipe_fd[1]);
 			failure_exit(data, "command not found", 127);
 		}
 		close(pipe_fd[1]);
@@ -46,16 +47,20 @@ void	fork_exec(t_data *data, char **env)
 		failure_exit(data, "Fork", 1);
 	if (pid == 0)
 	{
-		if (data->infile >= 0 || data->here_doc)
-			exec(fd, 0, env, data);
+		exec(fd, 0, env, data);
 	}
-	close(fd[1]);
-	if (dup2(fd[0], STDIN_FILENO) == -1)
-		failure_exit(data, "Dup2", 1);
+	else
+	{
+		close(fd[1]);
+		if (dup2(fd[0], STDIN_FILENO) == -1)
+			failure_exit(data, "Dup2", 1);
+		close(fd[0]);
+	}
 }
 
 void	here_doc_stdin(t_data *data, char *stop)
 {
+	int		status;
 	int		fd[2];
 	pid_t	pid;
 
@@ -70,10 +75,13 @@ void	here_doc_stdin(t_data *data, char *stop)
 	}
 	else
 	{
-		wait(NULL);
+		waitpid(0, &status, 0);
+		if (WIFEXITED(status))
+			failure_exit(data, NULL, WEXITSTATUS(status));
 		close (fd[1]);
 		if (dup2(fd[0], STDIN_FILENO) == -1)
 			failure_exit(data, "Dup2", 1);
+		close(fd[0]);
 	}
 }
 
@@ -92,6 +100,7 @@ void	read_here_doc(char *stop, int *fd)
 			&& (ft_strlen(line) - 1) == ft_strlen(stop))
 		{
 			free(line);
+			close(fd[1]);
 			exit(0);
 		}
 		ft_putstr_fd(line, fd[1]);

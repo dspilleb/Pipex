@@ -41,7 +41,7 @@ pipex_clean:
 clean:
 	@echo $(BLUE)"- cleaning PIPEX -"$(NONE)
 	@rm -rf $(OBJ)
-	@echo $(YELLOW)"- cleaning LIBFT -"$(NONE)
+	@echo $(YELLOW cleaning LIBFT -"$(NONE)
 	@make -C $(LIBFT_DIR) clean
 
 fclean: pipex_clean
