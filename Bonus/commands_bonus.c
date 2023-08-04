@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:42:11 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/04 12:41:02 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:14:45 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ void	free_cmds(t_data *data)
 		free_matrix(data->cmd_args[i]);
 	free(data->cmd_args);
 	free(data->cmd_paths);
-	i = -1;
 	free(data->pid);
+	if (data->infile != -1)
+		close(data->infile);
+	if (data->outfile != -1)
+		close(data->outfile);
 }

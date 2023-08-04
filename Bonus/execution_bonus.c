@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:22:37 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/04 14:15:06 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:22:39 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,11 @@ int	fork_exec(t_data *data, char **env)
 	if (pid == -1)
 		failure_exit(data, "Fork", 1);
 	if (pid == 0)
+	{
+		if (data->infile < 0 && data->here_doc == 0 && data->exec_count == 0)
+			failure_exit(data, NULL, 1);
 		exec(fd, 0, env, data);
+	}
 	else
 	{
 		close(fd[1]);
@@ -69,7 +73,7 @@ void	here_doc_stdin(t_data *data, char *stop)
 		failure_exit(data, "Fork", 1);
 	if (pid == 0)
 	{
-		read_here_doc(stop, fd);
+		read_here_doc(data, stop, fd);
 	}
 	else
 	{
@@ -80,7 +84,7 @@ void	here_doc_stdin(t_data *data, char *stop)
 	}
 }
 
-void	read_here_doc(char *stop, int *fd)
+void	read_here_doc(t_data *data, char *stop, int *fd)
 {
 	char	*line;
 
@@ -90,13 +94,13 @@ void	read_here_doc(char *stop, int *fd)
 		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
-			exit(1);
+			failure_exit(data, NULL, 1);
 		if (ft_strncmp(line, stop, ft_strlen(stop)) == 0 \
 			&& (ft_strlen(line) - 1) == ft_strlen(stop))
 		{
 			free(line);
 			close(fd[1]);
-			exit(0);
+			failure_exit(data, NULL, 0);
 		}
 		ft_putstr_fd(line, fd[1]);
 		free(line);

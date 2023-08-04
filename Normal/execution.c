@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:22:37 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/02 11:34:34 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/04 14:39:33 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ void	fork_exec(t_data *data, char **env)
 		failure_exit(data, 1);
 	if (pid == 0)
 	{
-		if (data->infile >= 0)
-			exec(fd, 0, env, data);
+		if (data->infile < 0)
+			exit(1);
+		exec(fd, 0, env, data);
 	}
 	exec(fd, 1, env, data);
 }

@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:07:07 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/04 12:41:21 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:22:14 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	free_cmds(t_data *data);
 
 void	exec(int *fd, int nb, char **env, t_data *data);
 int		fork_exec(t_data *data, char **env);
-void	read_here_doc(char *stop, int *fd);
+void	read_here_doc(t_data *data, char *stop, int *fd);
 void	here_doc_stdin(t_data *data, char *stop);
 
 int		init_files(int ac, char **av, t_data *data);
