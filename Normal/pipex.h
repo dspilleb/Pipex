@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:07:07 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/02 12:14:32 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/04 17:08:25 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct pipex_data
 {
 	char	***cmd_args;
 	char	**cmd_paths;
-	char	*env_path;
+	char	*path;
 	int		infile;
 	int		outfile;
 	int		status;
@@ -34,11 +34,11 @@ typedef struct pipex_data
 }	t_data;
 
 void	free_matrix(char **arr);
-void	failure_exit(t_data *data, int code);
+void	failure_exit(t_data *data, char *str, int code);
 
-char	*create_command_path(char *env_path, char *command);
-char	*find_command_path(char *all_paths, char *command);
-char	*find_env_path(char **envp);
+char	*create_command_path(char *envp, char *command);
+char	*find_command_path(t_data *data, char *all_paths, char *command);
+char	*find_envp(char **envp);
 int		set_cmds(t_data *data, char **av, char **envp);
 void	free_cmds(t_data *data);
 

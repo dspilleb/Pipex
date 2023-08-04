@@ -6,13 +6,13 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:42:11 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/04 15:37:31 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/04 17:06:01 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*find_env_path(char **envp)
+char	*find_envp(char **envp)
 {
 	while (envp && *envp)
 	{
@@ -20,6 +20,7 @@ char	*find_env_path(char **envp)
 			return (*envp + 5);
 		envp++;
 	}
+	ft_putstr_fd("No PATH variable\n", 2);
 	return (NULL);
 }
 
@@ -36,7 +37,7 @@ char	*create_command_path(char *path, char *command)
 	return (full_path);
 }
 
-char	*find_command_path(char *all_paths, char *command)
+char	*find_command_path(t_data *data, char *all_paths, char *command)
 {
 	int		i;
 	char	**arr;
@@ -46,6 +47,8 @@ char	*find_command_path(char *all_paths, char *command)
 	if (!command || !ft_strlen(command))
 		return (NULL);
 	arr = ft_split(all_paths, ':');
+	if (!arr)
+		failure_exit(data, "Malloc fail", 1);
 	while (arr && arr[++i])
 	{
 		full_path = create_command_path(arr[i], command);
@@ -68,8 +71,8 @@ int	set_cmds(t_data *data, char **av, char **envp)
 	char	**tmp_arr;
 
 	i = -1;
-	data->env_path = find_env_path(envp);
-	if (!data->env_path)
+	data->path = find_envp(envp);
+	if (!data->path)
 		return (EXIT_FAILURE);
 	data->cmd_paths = malloc(sizeof(char *) * (2));
 	data->cmd_args = malloc(sizeof(char **) * (2));
@@ -80,7 +83,8 @@ int	set_cmds(t_data *data, char **av, char **envp)
 		tmp_arr = ft_split(av[i + 2], ' ');
 		if (!tmp_arr)
 			return (EXIT_FAILURE);
-		data->cmd_paths[i] = find_command_path(data->env_path, tmp_arr[0]);
+		data->cmd_paths[i] = find_command_path \
+		(data, data->path, tmp_arr[0]);
 		data->cmd_args[i] = tmp_arr;
 		data->cmd_count++;
 	}
