@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:02:54 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/04 12:53:39 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/04 14:21:13 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ here_doc LIMITER cmd cmd1 file\n", 2);
 	if (data.status != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	data.status = set_cmds(&data, ac, av, env);
-	if (data.status == 0)
+	if (data.status == EXIT_SUCCESS)
 	{
 		init_pid_storage(&data);
 		if (!data.here_doc && data.infile != -1)

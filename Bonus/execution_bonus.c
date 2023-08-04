@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:22:37 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/04 12:42:52 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/04 14:15:06 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	fork_exec(t_data *data, char **env)
 
 void	here_doc_stdin(t_data *data, char *stop)
 {
-	int		status;
 	int		fd[2];
 	pid_t	pid;
 
@@ -74,9 +73,6 @@ void	here_doc_stdin(t_data *data, char *stop)
 	}
 	else
 	{
-		waitpid(0, &status, 0);
-		if (WIFEXITED(status))
-			failure_exit(data, NULL, WEXITSTATUS(status));
 		close (fd[1]);
 		if (dup2(fd[0], STDIN_FILENO) == -1)
 			failure_exit(data, "Dup2", 1);
