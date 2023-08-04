@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:27:42 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/03 13:34:50 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/04 12:42:11 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,22 @@ void	init_data(t_data *data)
 	data->exec_count = -1;
 	data->cmd_count = 0;
 	data->here_doc = 0;
+	data->pid = NULL;
 	data->env_path = NULL;
 	data->cmd_args = NULL;
 	data->cmd_paths = NULL;
+}
+
+void	init_pid_storage(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	if (!data->cmd_count)
+		return ;
+	data->pid = malloc(sizeof(int) * (data->cmd_count));
+	if (!data->pid)
+		failure_exit(data, "failed malloc", 1);
+	while (++i < data->cmd_count)
+		data->pid[i] = 0;
 }

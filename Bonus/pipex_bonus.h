@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:07:07 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/03 15:15:18 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/04 12:41:21 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct pipex_data
 	char	***cmd_args;
 	char	**cmd_paths;
 	char	*env_path;
+	int		*pid;
 	int		infile;
 	int		outfile;
 	int		here_doc;
@@ -39,6 +40,7 @@ typedef struct pipex_data
 void	free_matrix(char **arr);
 void	failure_exit(t_data *data, char *str, int code);
 int		is_equal(char *s1, char *s2);
+void	wait_all_process(t_data *data);
 
 char	*create_command_path(char *env_path, char *command);
 char	*find_command_path(char *all_paths, char *command);
@@ -47,11 +49,12 @@ int		set_cmds(t_data *data, int ac, char **av, char **envp);
 void	free_cmds(t_data *data);
 
 void	exec(int *fd, int nb, char **env, t_data *data);
-void	fork_exec(t_data *data, char **env);
+int		fork_exec(t_data *data, char **env);
 void	read_here_doc(char *stop, int *fd);
 void	here_doc_stdin(t_data *data, char *stop);
 
 int		init_files(int ac, char **av, t_data *data);
 void	init_data(t_data *data);
+void	init_pid_storage(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:22:20 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/03 13:03:33 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/04 12:40:26 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,18 @@ int	is_equal(char *s1, char *s2)
 		i++;
 	}
 	return (s1[i] - s2[i]);
+}
+
+void	wait_all_process(t_data *data)
+{
+	int	status;
+	int	j;
+
+	j = -1;
+	while (++j < data->cmd_count)
+	{
+		waitpid(data->pid[j], &status, 0);
+		if (WIFEXITED(status))
+			data->status = WEXITSTATUS(status);
+	}
 }

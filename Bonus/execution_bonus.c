@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:22:37 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/03 15:15:55 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/04 12:42:52 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	exec(int *pipe_fd, int pid, char **env, t_data *data)
 		close(pipe_fd[0]);
 		if (data->exec_count == (data->cmd_count - 1))
 			ret = dup2(data->outfile, STDOUT_FILENO);
-		else 
+		else
 			ret = dup2(pipe_fd[1], STDOUT_FILENO);
 		if (ret != -1)
 		{
@@ -35,7 +35,7 @@ void	exec(int *pipe_fd, int pid, char **env, t_data *data)
 	}
 }
 
-void	fork_exec(t_data *data, char **env)
+int	fork_exec(t_data *data, char **env)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -46,9 +46,7 @@ void	fork_exec(t_data *data, char **env)
 	if (pid == -1)
 		failure_exit(data, "Fork", 1);
 	if (pid == 0)
-	{
 		exec(fd, 0, env, data);
-	}
 	else
 	{
 		close(fd[1]);
@@ -56,6 +54,7 @@ void	fork_exec(t_data *data, char **env)
 			failure_exit(data, "Dup2", 1);
 		close(fd[0]);
 	}
+	return (pid);
 }
 
 void	here_doc_stdin(t_data *data, char *stop)
