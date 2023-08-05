@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:27:42 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/05 12:38:30 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/05 14:40:24 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	init_files(int ac, char **av, t_data *data)
 	}
 	if (data->outfile < 0)
 	{
-		perror(av[4]);
+		perror(av[ac - 1]);
 		return (EXIT_FAILURE);
 	}
 	return (0);
