@@ -52,5 +52,7 @@ make all
 
 ```bash
  < file1 cmd1 | cmd2 | cmd3 ... | cmdn > file2
+```
+```bash
  cmd << LIMITER | cmd1 >> file
 ```
