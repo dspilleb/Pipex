@@ -51,5 +51,6 @@ make all
 <h3>It must behave exactly the same as the shells command below:</h3>
 
 ```bash
+ < file1 cmd1 | cmd2 | cmd3 ... | cmdn > file2
  cmd << LIMITER | cmd1 >> file
 ```
