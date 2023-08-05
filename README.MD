@@ -28,6 +28,7 @@ make all
 ./pipex file1 cmd1 cmd2 file2
 ```
 
+<h2> Mandatory </h2>
 <h3> It must take 4 arguments:</h3>
 <p> <ul>
 <li> file1 and file2 are file names.
@@ -40,4 +41,15 @@ make all
 
 ```bash
  < file1 cmd1 | cmd2 > file2
+```
+<h2> Bonus </h2>
+<li> Handle multiple pipes.
+<li> Support « and » when the first parameter is "here_doc".
+
+------------
+
+<h3>It must behave exactly the same as the shells command below:</h3>
+
+```bash
+ cmd << LIMITER | cmd1 >> file
 ```
