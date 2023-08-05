@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:02:54 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/05 12:38:23 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/05 12:53:16 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ int	main(int ac, char **av, char **env)
 
 	if (ac != 5)
 	{
-		write(2, "usage : file1 cmd1 cmd2 file2\n", 30);
+		ft_putstr_fd("usage : file1 cmd1 cmd2 file2\n", 2);
 		return (EXIT_FAILURE);
 	}
 	if (!env)
 	{
-		write(2, "no environment\n", 15);
+		ft_putstr_fd("no environment\n", 2);
 		return (EXIT_FAILURE);
 	}
 	init_data(&data);

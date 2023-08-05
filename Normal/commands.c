@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:42:11 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/05 12:33:48 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/05 12:56:59 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,7 @@ int	set_cmds(t_data *data, char **av, char **envp)
 		tmp_arr = ft_split(av[i + 2], ' ');
 		if (!tmp_arr)
 			return (EXIT_FAILURE);
-		data->cmd_paths[i] = find_command_path \
-		(data, data->path, tmp_arr[0]);
+		data->cmd_paths[i] = find_command_path(data, data->path, tmp_arr[0]);
 		data->cmd_args[i] = tmp_arr;
 		data->cmd_count++;
 	}
