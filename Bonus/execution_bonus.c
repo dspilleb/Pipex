@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:22:37 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/04 15:22:39 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/05 12:27:13 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	here_doc_stdin(t_data *data, char *stop)
 	else
 	{
 		close (fd[1]);
+		wait(NULL);
 		if (dup2(fd[0], STDIN_FILENO) == -1)
 			failure_exit(data, "Dup2", 1);
 		close(fd[0]);
@@ -94,7 +95,7 @@ void	read_here_doc(t_data *data, char *stop, int *fd)
 		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
-			failure_exit(data, NULL, 1);
+			failure_exit(data, "GNL fail", 1);
 		if (ft_strncmp(line, stop, ft_strlen(stop)) == 0 \
 			&& (ft_strlen(line) - 1) == ft_strlen(stop))
 		{

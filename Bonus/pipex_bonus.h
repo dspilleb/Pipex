@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:07:07 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/04 17:08:11 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/05 12:31:48 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # include <stdlib.h>
 # include "../My_Libft/libft.h"
 # include "../GNL/get_next_line_bonus.h"
-
-# include <errno.h>
 
 typedef struct pipex_data
 {

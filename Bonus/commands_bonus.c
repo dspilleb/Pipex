@@ -6,7 +6,7 @@
 /*   By: dspilleb <dspilleb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:42:11 by dspilleb          #+#    #+#             */
-/*   Updated: 2023/08/04 17:06:01 by dspilleb         ###   ########.fr       */
+/*   Updated: 2023/08/05 12:33:53 by dspilleb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 char	*find_envp(char **envp)
 {
-	while (envp && *envp)
+	while (*envp)
 	{
 		if (ft_strncmp("PATH", *envp, 4) == 0)
 			return (*envp + 5);
 		envp++;
 	}
-	ft_putstr_fd("No PATH", 2);
+	ft_putstr_fd("No PATH variable\n", 2);
 	return (NULL);
 }
 
@@ -52,7 +52,7 @@ char	*find_command_path(t_data *data, char *all_paths, char *command)
 	while (arr && arr[++i])
 	{
 		full_path = create_command_path(arr[i], command);
-		if (full_path && access(full_path, F_OK | X_OK) == 0)
+		if (full_path && access(full_path, X_OK) == 0)
 		{
 			free_matrix(arr);
 			return (full_path);
@@ -60,8 +60,7 @@ char	*find_command_path(t_data *data, char *all_paths, char *command)
 		if (full_path)
 			free(full_path);
 	}
-	if (arr)
-		free_matrix(arr);
+	free_matrix(arr);
 	return (ft_strdup(command));
 }
 
