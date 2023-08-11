@@ -3,11 +3,11 @@
 </h1>
 
 <p align="center">
-	<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/DanNoKenshi/Pipex?color=lightblue" />
-	<img alt="Number of lines of code" src="https://img.shields.io/tokei/lines/github/DanNoKenshi/Pipex?color=critical" />
-	<img alt="Code language count" src="https://img.shields.io/github/languages/count/DanNoKenshi/Pipex?color=yellow" />
-	<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/DanNoKenshi/Pipex?color=blue" />
-	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/DanNoKenshi/Pipex?color=green" />
+	<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/dspilleb/Pipex?color=lightblue" />
+	<img alt="Number of lines of code" src="https://img.shields.io/tokei/lines/github/dspilleb/Pipex?color=critical" />
+	<img alt="Code language count" src="https://img.shields.io/github/languages/count/dspilleb/Pipex?color=yellow" />
+	<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/dspilleb/Pipex?color=blue" />
+	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/dspilleb/Pipex?color=green" />
 </p>
 
 ## 💡 About the project
